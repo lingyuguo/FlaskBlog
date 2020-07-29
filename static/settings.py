@@ -6,3 +6,9 @@
  @Time : 2020/7/25 12:55
  
  """
+
+#config
+
+
+ENV = "deployment"
+DEBUG = "True"
