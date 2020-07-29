@@ -8,6 +8,7 @@
  """
 from flask import Flask, request, render_template
 from static import settings
+import json
 
 app = Flask(__name__)
 app.config.from_object(settings)
@@ -32,7 +33,8 @@ def user():
     return render_template("user.html")
 @app.route("/show")
 def show():
-    return users
+    j_str = json.dumps(users)
+    return j_str
 
 if __name__ == '__main__':
     app.run()
