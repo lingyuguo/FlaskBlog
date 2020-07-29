@@ -11,30 +11,28 @@ from static import settings
 
 app = Flask(__name__)
 app.config.from_object(settings)
-
-
+users = []      #存储用户数据
 @app.route("/index")
 def index():
-    return  render_template("index.html")
-@app.route("/user")
+    return render_template("index.html")
+
+
+@app.route("/user", methods=["GET", "POST"])
 def user():
+    if request.method == "POST":
+        username = request.form.get('username')      #获取form data
+        password = request.form.get('password')
+        repassword = request.form.get('repassword')
+        if repassword == password:       #密码一致性
+            user = {"username": username,"password" : password}
+            users.append(user)            #保存数据
+            return "注册成功"
+        else:
+            return "两次密码不一致"
     return render_template("user.html")
-
-@app.route("/index1", methods=["GET"])
-def index1():
-    username = request.args.get('username')
-    password = request.args.get('password')
-    dict={}
-    dict[username]=password
-    return dict
-
-@app.route("/index2", methods=["GET", "POST"])
-def index2():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    dict={}
-    dict[username]=password
-    return dict
+@app.route("/show")
+def show():
+    return users
 
 if __name__ == '__main__':
     app.run()
